@@ -26,7 +26,8 @@ In Clojure, after trying a lot of things, it seemed to make the most sense to do
 (defn successor-of [n] {:predecessor n})
 
 (def one (successor-of nil))
-(def two (successor-of one))```
+(def two (successor-of one))
+```
 
 And then proceed accordingly.
 
