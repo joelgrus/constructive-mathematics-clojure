@@ -8,18 +8,25 @@ As the F# project is still a work in progress, this is *very much* a work in pro
 
 In F#, I defined these as 
 
-`type Natural = One | SuccessorOf of Natural`
+```F#
+type Natural = One | SuccessorOf of Natural
+```
 
 So that you had 
 
-`let Two = SuccessorOf One` and so on.
+```F#
+let Two = SuccessorOf One
+```
+
+and so on.
 
 In Clojure, after trying a lot of things, it seemed to make the most sense to do 
 
-`(defn successor-of [n] {:predecessor n})
+```
+(defn successor-of [n] {:predecessor n})
 
 (def one (successor-of nil))
-(def two (successor-of one))`
+(def two (successor-of one))```
 
 And then proceed accordingly.
 
@@ -27,22 +34,27 @@ And then proceed accordingly.
 
 In F# these were 
 
-`type Integer =
+```
+type Integer =
 | Positive of Natural.Natural
 | Zero
-| Negative of Natural.Natural`
+| Negative of Natural.Natural
+```
 
 In Clojure I decided on the similar
 
-`(def zero {:sign :zero})
+```
+(def zero {:sign :zero})
 (defn positive [n] {:sign :positive, :n n})
 (defn negative [n] {:sign :negative, :n n})`
+```
 
 ## Rationals
 
 In F# these were a class
 
-`type Rational(numerator : Integer.Integer, denominator : Integer.Integer) =
+```
+type Rational(numerator : Integer.Integer, denominator : Integer.Integer) =
     let gcd = 
         if Integer.EqualTo Integer.Zero denominator then failwithf "Cannot have a Zero denominator"
         else Integer.GCD numerator denominator
@@ -59,10 +71,12 @@ In F# these were a class
 
     member this.numerator with get () = _numerator
     member this.denominator with get () = _denominator`
+```
 	
 In Clojure I used a similar function
 
-`(defn rational [numerator denominator]
+```
+(defn rational [numerator denominator]
 	  (let [gcd (if (integers/equal-to integers/zero denominator)
 	              (throw (Exception. "cannot have a zero denominator!"))
 	              (integers/gcd numerator denominator))
@@ -70,7 +84,8 @@ In Clojure I used a similar function
 	                  integers/negate
 	                  (fn [i] i))]
 	    {:numerator (integers/divide (re-sign numerator) gcd),
-	     :denominator (integers/divide (re-sign denominator) gcd)}))`
+	     :denominator (integers/divide (re-sign denominator) gcd)}))
+```
 
 ## License
 
