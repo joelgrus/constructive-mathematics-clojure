@@ -12,7 +12,7 @@
 (def four (successor-of three))
 ; and so on
 
-(defn one? [n] (nil? (predecessor-of n)))
+(defn one? [n] (-> n predecessor-of nil?))
 
 (defn compare [n1 n2]
  (cond

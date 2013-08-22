@@ -76,7 +76,7 @@
   (multiply r1 (invert r2)))
 
 (defn power [r i]
-  (case (sign i)
+  (case (integers/sign i)
     :zero one
     :negative (power (invert r) (integers/negate i))
     :positive (multiply r (power r (integers/predecessor-of i)))))

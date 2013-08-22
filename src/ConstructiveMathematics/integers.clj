@@ -164,3 +164,41 @@
 (defn range [lo hi]
   (if (less-than hi lo) nil
     (cons lo (lazy-seq (range (successor-of lo) hi)))))
+
+(defn almost-square-root [i]
+  (cond
+    (negative? i) (throw (Exception. "cannot take square root of a negative number"))
+    (zero? i) zero
+    :else (let [loop-f (fn loop-f [i']
+                         (let [next-i' (successor-of i')]
+                           (if (less-than i (square next-i'))
+                             i'
+                             (loop-f next-i'))))]
+            (loop-f one))))
+
+(defn is-prime [i]
+  (cond
+    (zero? i) false
+    (negative? i) (is-prime (negate i))
+    (equal-to i one) false
+    :else (not 
+            (->> (range two (almost-square-root i))
+              (some #(is-divisible-by i %))))))
+
+(defn factorial [i]
+  (cond 
+    (negative? i) (throw (Exception. "cannot factorial a negative number"))
+    (zero? i) one
+    :else (reduce multiply (range one i))))
+
+
+(defn all-integers-from [i]
+  (lazy-cat [i (negate i)] (all-integers-from (successor-of i))))
+
+(def all-integers 
+  (cons zero (all-integers-from one)))
+
+(def all-primes
+  (->> natural-numbers/all-naturals
+    (map positive)
+    (filter is-prime)))

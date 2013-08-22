@@ -1,7 +1,7 @@
 (ns ConstructiveMathematics.natural-numbers-test
   (:refer-clojure :exclude [compare])
   (:require [clojure.core :as core]) ; allow to still reach clojure.core/compare through core/compare
-  (:require [ConstructiveMathematics.test-helpers :as test-helpers)  
+  (:require [ConstructiveMathematics.test-helpers :as test-helpers])  
   (:use clojure.test
         ConstructiveMathematics.natural-numbers))
 

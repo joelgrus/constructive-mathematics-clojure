@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [compare max min zero? range]) ; suppress the shadowing warning
   (:require [clojure.core :as core]) ; allow to still reach clojure.core/compare through core/compare
   (:require [ConstructiveMathematics.natural-numbers-test :as nn-test])
-  (:require [ConstructiveMathematics.test-helpers :as test-helpers)
+  (:require [ConstructiveMathematics.test-helpers :as test-helpers])
   (:use clojure.test
         ConstructiveMathematics.integers))
 
@@ -55,7 +55,7 @@
 (def minus-one-seventy-three (from-int32 -173))
 
 (deftest all-integers-test
-  (is (every? #(test-helpers/unique-up-to-i first1000 %) (range 1000)))
+  (is (every? #(test-helpers/unique-up-to-i first1000 %) (core/range 1000)))
   (is (some #(equal-to % fifty-seven) all-integers))
   (is (some #(equal-to % minus-one-seventy-three) all-integers)))
 
