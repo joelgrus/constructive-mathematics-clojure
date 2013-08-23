@@ -50,6 +50,12 @@
   (is (equal-to (from-int32 -6) (multiply two (negate three))))
   (is (equal-to (from-int32 42) (multiply (from-int32 6) (from-int32 7)))))
 
+(deftest divide-test
+  (is (equal-to four (divide (from-int32 12) three)))
+  (is (equal-to four (divide (from-int32 -8) minus-two)))
+  (is (equal-to (from-int32 -4) (divide (from-int32 12) (from-int32 -3))))
+  (is (nil? (try-divide four three))))
+
 (def first1000 (into [] (take 1000 all-integers)))
 (def fifty-seven (from-int32 57))
 (def minus-one-seventy-three (from-int32 -173))
@@ -65,3 +71,11 @@
   (is (equal-to two (subtract three one)))
   (is (equal-to (from-int32 50) (subtract (from-int32 100) (from-int32 50))))
   (is (equal-to (from-int32 -50) (subtract (from-int32 50) (from-int32 100)))))
+
+(deftest prime-test
+  (is (prime? two))
+  (is (prime? three))
+  (is (not (prime? four)))
+  (is (prime? (from-int32 97)))
+  (is (not (prime? (from-int32 100))))
+  (is (= (take 5 all-primes) (map from-int32 '(2 3 5 7 11)))))

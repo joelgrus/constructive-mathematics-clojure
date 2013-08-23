@@ -23,5 +23,3 @@
                            (reduce rational-numbers/add)))]
     (real partial-sum-to (fn [n] n))))
 
-
-

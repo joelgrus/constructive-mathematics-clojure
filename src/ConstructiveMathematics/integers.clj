@@ -108,35 +108,31 @@
   (if (less-than i zero) (negate i) i))
 
 (defn try-divide [i1 i2] =
-  (let [[sign1 n1] (sign-n i1)
-        [sign2 n2] (sign-n i2)]
-    (cond
-     (= :zero sign2) (throw (Exception. "division by zero is not allowed"))
-     (= :negative sign2) (try-divide (negate i1) (negate i2))
-     (equal-to i2 one) i1
-     (equal-to i1 zero) zero
-     (= :negative sign1) (let [td (try-divide (negate i1) i2)]
+  (cond
+     (zero? i2) (throw (Exception. "division by zero is not allowed"))
+     (negative? i2) (try-divide (negate i1) (negate i2))
+     (zero? i1) zero
+     (negative? i1) (let [td (try-divide (negate i1) i2)]
                            (if td (negate td)))
      :else ; both positive
        (if (less-than i1 i2)
          nil
          (let [td (try-divide (subtract i1 i2) i2)]
-           (if td (successor-of td)))))))
+           (if td (successor-of td))))))
 
 (defn divide [i1 i2]
   (let [td (try-divide i1 i2)]
-    (if td td (throw (Exception. "cannot divide a smaller integer by a larger one")))))
+    (or td (throw (Exception. "cannot divide a smaller integer by a larger one")))))
 
 (defn gcd [i1 i2]
-  (let [[sign1 n1] (sign-n i1)
-        [sign2 n2] (sign-n i2)]
     (cond
-     (= :negative sign1) (gcd (negate i1) i2)
-     (= :negative sign2) (gcd i1 (negate i2))
-     (= :zero sign1) i2
-     (= :zero sign2) i1
-     (natural-numbers/less-than-or-equal-to n1 n2) (gcd i1 (subtract i2 i1))
-     :else (gcd (subtract i1 i2) i2))))
+     (negative? i1) (gcd (negate i1) i2)
+     (negative? i2) (gcd i1 (negate i2))
+     (zero? i1) i2
+     (zero? i2) i1
+     ; both are positive
+     (natural-numbers/less-than-or-equal-to (natural-part i1) (natural-part i2)) (gcd i1 (subtract i2 i1))
+     :else (gcd (subtract i1 i2) i2)))
 
 (defn to-counting [i]
   (if (positive? i)
@@ -144,12 +140,12 @@
     (throw (Exception. "Only positive integer can become counting number"))))
 
 (defn modulo [i b]
-  (if (positive? b)
-    (let [[sign n] (sign-n i)]
-      (case sign
-       :zero zero
-       :negative (modulo (add i b) b)
-       :positive (if (less-than i b) i (modulo (subtract i b) b))))))
+  (and
+    (positive? b)
+    (cond
+      (zero? i) zero
+      (negative? i) (modulo (add i b) b)
+      (positive? i) (if (less-than i b) i (modulo (subtract i b) b)))))
 
 (defn is-divisible-by [i1 i2] (zero? (modulo i1 (absolute-value i2))))
 
@@ -176,14 +172,12 @@
                              (loop-f next-i'))))]
             (loop-f one))))
 
-(defn is-prime [i]
+(defn prime? [i]
   (cond
     (zero? i) false
-    (negative? i) (is-prime (negate i))
+    (negative? i) (prime? (negate i))
     (equal-to i one) false
-    :else (not 
-            (->> (range two (almost-square-root i))
-              (some #(is-divisible-by i %))))))
+    :else (not-any? #(is-divisible-by i %) (range two (almost-square-root i)))))
 
 (defn factorial [i]
   (cond 
@@ -201,4 +195,4 @@
 (def all-primes
   (->> natural-numbers/all-naturals
     (map positive)
-    (filter is-prime)))
+    (filter prime?)))

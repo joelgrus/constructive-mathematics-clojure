@@ -1,4 +1,8 @@
-(ns ConstructiveMathematics.rational-numbers)
+(ns ConstructiveMathematics.rational-numbers
+  (:refer-clojure :exclude [compare max min zero? range numerator denominator]) ; suppress the shadowing warning
+  (:require [clojure.core :as core]) ; allow to still reach clojure.core/compare through core/compare
+
+  )
 
 (require '[ConstructiveMathematics.natural-numbers :as natural-numbers])
 (require '[ConstructiveMathematics.integers :as integers])
@@ -35,7 +39,7 @@
         [n2 d2] (n-d r2)
         common-denominator (integers/multiply d1 d2)
         new-numerator1 (integers/multiply n1 d2)
-        new-numerator2 (integers/multiply n2 n1)
+        new-numerator2 (integers/multiply n2 d1)
         transform (if (integers/less-than integers/zero common-denominator)
                     (fn [i] i)
                     integers/negate)]
