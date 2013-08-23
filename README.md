@@ -24,6 +24,7 @@ In Clojure, after trying a lot of things, it seemed to make the most sense to do
 
 ```
 (defn successor-of [n] {:predecessor n})
+(defn predecessor-of [n] (:predecessor n))
 
 (def one (successor-of nil))
 (def two (successor-of one))
@@ -47,7 +48,7 @@ In Clojure I decided on the similar
 ```
 (def zero {:sign :zero})
 (defn positive [n] {:sign :positive, :n n})
-(defn negative [n] {:sign :negative, :n n})`
+(defn negative [n] {:sign :negative, :n n})
 ```
 
 ## Rationals
@@ -71,7 +72,7 @@ type Rational(numerator : Integer.Integer, denominator : Integer.Integer) =
     let _denominator = (Integer.Divide (reSign denominator) gcd)
 
     member this.numerator with get () = _numerator
-    member this.denominator with get () = _denominator`
+    member this.denominator with get () = _denominator
 ```
 	
 In Clojure I used a similar function
