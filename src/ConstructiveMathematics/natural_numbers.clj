@@ -36,10 +36,7 @@
       n2
       (add n2 (multiply (predecessor-of n1) n2))))
 
-(defn all-naturals-from [n]
-  (lazy-cat [n] (all-naturals-from (successor-of n))))
-
-(def all-naturals (all-naturals-from one))
+(def all-naturals (iterate successor-of one))
 
 (defn try-subtract [n1 n2]
   (cond
