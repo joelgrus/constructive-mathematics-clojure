@@ -1,5 +1,7 @@
 # ConstructiveMathematics
 
+Blog post <a href = "http://joelgrus.com/2013/08/26/constructive-mathematics-in-f-and-clojure/">here</a>
+
 Mostly for my own education, I decided to port my [Constructive Mathematics in F#](https://github.com/joelgrus/constructive-mathematics-fsharp) project to Clojure.  (The debugging of which reminded me how much I liked static typing.)
 
 As the F# project is still a work in progress, this is *very much* a work in progress.  In particular, as I have much less Clojure experience than I do F# experience, I am a lot less sure about some of the design decisions.  Here's how they look:
